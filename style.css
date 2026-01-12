@@ -81,4 +81,26 @@ header {
 
 .buy-btn.whatsapp { background: #25d366; margin-top: 10px; }
 
+
 footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 50px; }
+/* Fotoğrafları hizalamak için ekle */
+.img-container {
+    width: 100%;
+    height: 200px; /* Tüm fotoğraflar aynı yükseklikte durur */
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fotoğrafı kesmeden kutuya sığdırır */
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    height: 40px; /* Açıklama satırlarını hizalar */
+}
