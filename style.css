@@ -104,3 +104,44 @@ footer { background: #333; color: white; text-align: center; padding: 20px; marg
     margin-bottom: 15px;
     height: 40px; /* Açıklama satırlarını hizalar */
 }
+
+#hakkimizda {
+    padding: 80px 10%;
+    background-color: #fff;
+}
+
+.about-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; /* Mobilde alt alta gelmesi için */
+}
+
+.about-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.about-text p {
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+.about-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 20px 20px 0px #2d5a27; /* Şık bir yeşil çerçeve efekti */
+}
+
+/* Mobilde resmin çerçeve efektini ve sıralamasını düzenle */
+@media (max-width: 768px) {
+    .about-container { flex-direction: column-reverse; }
+    .about-image img { box-shadow: 10px 10px 0px #2d5a27; }
+}
