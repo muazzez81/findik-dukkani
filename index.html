@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta name="google-site-verification" content="j-fb9B5S-nupVMDxHnp7S_W42oH8_f-vC-S9oR1858" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fındık Sepeti | Düzce'den Taze ve Doğal Fındık</title>
     <meta name="description" content="Düzce Sallar Mahallesi'nden doğrudan üreticiden taze fındık. Çifte kavrulmuş, çiğ ve kabuklu fındık seçenekleriyle.">
     <meta name="google-site-verification" content="j-fb9B5S-nupVMDxHnp7S_W42oH8_f-vC-S9oR1858" />
-    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -19,9 +20,9 @@
             <li><a href="#yorumlar">Yorumlar</a></li>
             <li><a href="#hakkimizda">Hakkımızda</a></li>
             <li><a href="#iletisim">İletişim</a></li>
-            <li id="sepet-menu-item" style="background: #e67e22; padding: 5px 15px; border-radius: 20px; margin-left: 10px; cursor: pointer; display: inline-block;">
-                <a href="javascript:void(0)" style="color: white !important; font-weight: bold; text-decoration: none;">
-                    <i class="fas fa-shopping-cart"></i> Sepetim (<span id="sepet-sayaci-menu">0</span>)
+            <li id="sepet-menu-item">
+                <a href="#sepet-bolumu" class="sepet-link-modern">
+                    <i class="fas fa-shopping-basket"></i> Sepetim (<span id="sepet-sayaci-menu">0</span>)
                 </a>
             </li>
         </ul>
@@ -30,8 +31,8 @@
     <header>
         <div class="hero-content">
             <h1>Bahçeden Doğrudan Kapınıza</h1>
-            <p>En taze, en kaliteli Karadeniz fındıkları şimdi bir tık uzağınızda.</p>
-            <a href="#urunler" class="btn">Hemen İncele</a>
+            <p>Düzce'nin bereketli topraklarından en taze fındıklar.</p>
+            <a href="#urunler" class="btn-hero">Hemen İncele</a>
         </div>
     </header>
 
@@ -42,56 +43,71 @@
             <div class="product-card">
                 <div class="img-container"><img src="findik8.jpg" alt="Çiğ İç Fındık"></div>
                 <h3>Taze Çiğ İç Fındık</h3>
-                <p class="description">Vakumlanmış paketlerde, tazeliğini koruyan doğal iç fındık.</p>
+                <p class="description">Vakumlanmış paketlerde, doğal ve taptaze.</p>
                 <p class="price">450 TL <small>(1 KG)</small></p>
-                <button class="sepete-ekle-btn buy-btn whatsapp" data-urun="Çiğ İç Fındık" data-fiyat="450" style="width:100%; border:none; cursor:pointer;">
+                <button class="sepete-ekle-btn" onclick="sepeteEkle('Çiğ İç Fındık', 450)">
                     <i class="fas fa-cart-plus"></i> Sepete Ekle
                 </button>
             </div>
 
-            <div class="product-card" style="border: 2px solid #2ecc71; transform: scale(1.02);">
+            <div class="product-card popular">
+                <div class="badge">EN ÇOK SATAN</div>
                 <div class="img-container"><img src="findik2.jpg" alt="Kavrulmuş Fındık"></div>
-                <div style="background: #2ecc71; color: white; font-size: 11px; padding: 4px; text-align: center; border-radius: 4px; margin-bottom: 8px;">POPÜLER ÜRÜN</div>
                 <h3>Çifte Kavrulmuş Fındık</h3>
-                <p class="description">Özel fırınlarımızda tam kıvamında kavrulmuş, çıtır lezzet.</p>
-                <p class="price">1 KG 1000 TL <small>(500 GR. 600)</small></p>
-                <button class="sepete-ekle-btn buy-btn" data-urun="Kavrulmuş Fındık" data-fiyat="1000" style="width:100%; border:none; cursor:pointer; background-color: #2ecc71; margin-bottom: 5px;">
+                <p class="description">Özel fırınlanmış, çıtır çıtır efsane lezzet.</p>
+                <p class="price">1000 TL <small>(1 KG)</small></p>
+                <button class="sepete-ekle-btn" onclick="sepeteEkle('Kavrulmuş Fındık', 1000)">
                     <i class="fas fa-cart-plus"></i> Sepete Ekle
                 </button>
-                <a href="https://ikastaharman.ikas.shop/findikkavrulmus-ve-paketlenmis" class="buy-btn" style="background-color: #34495e; font-size: 12px; padding: 5px;">
-                     Kredi Kartı ile Al
+                <a href="https://ikastaharman.ikas.shop/findikkavrulmus-ve-paketlenmis" class="ikas-link">
+                     <i class="fas fa-credit-card"></i> Kartla Satın Al
                 </a>
             </div>
 
             <div class="product-card">
                 <div class="img-container"><img src="findik5.jpg" alt="Kabuklu Fındık"></div>
                 <h3>Natürel Kabuklu Fındık</h3>
-                <p class="description">Bahçeden toplandığı haliyle, en doğal formunda kabuklu fındık.</p>
+                <p class="description">Bahçeden toplandığı haliyle, en doğal formunda.</p>
                 <p class="price">350 TL <small>(1 KG)</small></p>
-                <button class="sepete-ekle-btn buy-btn whatsapp" data-urun="Kabuklu Fındık" data-fiyat="350" style="width:100%; border:none; cursor:pointer;">
+                <button class="sepete-ekle-btn" onclick="sepeteEkle('Kabuklu Fındık', 350)">
                     <i class="fas fa-cart-plus"></i> Sepete Ekle
                 </button>
             </div>
         </div>
     </section>
 
-    <section id="yorumlar" style="background-color: #fdfaf5; padding: 60px 20px;">
+    <section id="sepet-bolumu">
+        <div class="sepet-container">
+            <h2 class="section-title">Sipariş Detayı</h2>
+            <div id="sepet-listesi">
+                <p style="text-align:center; color:#888;">Sepetiniz henüz boş...</p>
+            </div>
+            <div class="toplam-alan">
+                Toplam Tutar: <span id="toplam-tutar">0</span> TL
+            </div>
+            
+            <div class="siparis-formu">
+                <input type="text" id="musteri-ad" placeholder="Adınız Soyadınız">
+                <textarea id="musteri-adres" placeholder="Teslimat Adresiniz" rows="3"></textarea>
+                <button onclick="siparisVer()" class="btn-whatsapp-siparis">
+                    <i class="fab fa-whatsapp"></i> SİPARİŞİ WHATSAPP'TAN GÖNDER
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="yorumlar">
         <h2 class="section-title">Müşterilerimiz Ne Diyor?</h2>
-        <div class="product-grid">
-            <div class="product-card" style="background: white; border-top: 4px solid #e67e22;">
-                <p style="font-style: italic; color: #555;">"Düzce'den gelen en taze fındık! Kavrulmuş fındığın çıtırlığı harika. Paketleme çok özenliydi."</p>
-                <h4 style="margin-top: 15px; color: #333;">- Ahmet Y.</h4>
-                <div style="color: #f1c40f;">★★★★★</div>
+        <div class="testimonial-grid">
+            <div class="testi-card">
+                <p>"Düzce'den gelen en taze fındık! Paketleme çok özenli."</p>
+                <h4>- Ahmet Y.</h4>
+                <div class="stars">★★★★★</div>
             </div>
-            <div class="product-card" style="background: white; border-top: 4px solid #e67e22;">
-                <p style="font-style: italic; color: #555;">"Çiğ fındık aldım, taptaze. WhatsApp üzerinden çok hızlı ilgilendiler. Herkese tavsiye ederim."</p>
-                <h4 style="margin-top: 15px; color: #333;">- Fatma K.</h4>
-                <div style="color: #f1c40f;">★★★★★</div>
-            </div>
-            <div class="product-card" style="background: white; border-top: 4px solid #e67e22;">
-                <p style="font-style: italic; color: #555;">"İkası üzerinden kartla güvenle aldım, ertesi gün kargoya verildi. Çok dürüst bir satıcı."</p>
-                <h4 style="margin-top: 15px; color: #333;">- Mehmet T.</h4>
-                <div style="color: #f1c40f;">★★★★★</div>
+            <div class="testi-card">
+                <p>"WhatsApp üzerinden çok hızlı ilgilendiler. Tavsiye ederim."</p>
+                <h4>- Fatma K.</h4>
+                <div class="stars">★★★★★</div>
             </div>
         </div>
     </section>
@@ -99,54 +115,16 @@
     <section id="hakkimizda">
         <div class="about-container">
             <div class="about-text">
-                <h2 class="section-title" style="text-align: left;">Hikayemiz</h2>
-                <p><strong>Düzce'nin Sallar Mahallesi'nden DEMİRÖZ ailesi olarak</strong> nesillerdir devam eden fındık tarımı tecrübemizi doğrudan sofranıza sunuyoruz.</p>
-                <p>✓ %100 Doğal ve Yeni Mahsul<br>✓ El Emeği İle Seçilmiş Taneler<br>✓ Bahçeden Doğrudan Satış</p>
-            </div>
-            <div class="about-image">
-                <img src="findik-bahce.jpg" alt="Fındık Bahçemiz">
-            </div>
-        </div>
-    </section>
-
-    <section id="iletisim">
-        <h2 class="section-title">Bizimle İletişime Geçin</h2>
-        <div class="contact-container">
-            <div class="contact-info">
-                <div class="info-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div><h3>Adresimiz</h3><p>Sallar Mahallesi, Düzce Merkez/Düzce</p></div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-phone-alt"></i>
-                    <div><h3>Telefon / WhatsApp</h3><p>0 (532) 766 91 02</p></div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-envelope"></i>
-                    <div><h3>E-Posta</h3><p>duzcefindik571@gmail.com</p></div>
-                </div>
-            </div>
-            <div class="contact-cta">
-                <h3>Sorularınız mı var?</h3>
-                <p>Sipariş süreci için bize anında yazabilirsiniz.</p>
-                <a href="https://wa.me/905327669102" class="buy-btn whatsapp">
-                    <i class="fab fa-whatsapp"></i> WhatsApp'tan Sorun
-                </a>
+                <h2 class="section-title" style="text-align: left;">Demiröz Ailesi</h2>
+                <p>Nesillerdir Düzce'nin Sallar Mahallesi'nde fındık üretiyoruz. Bahçemizden doğrudan sizin sofranıza en doğalı sunuyoruz.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Fındık Sepeti - Demiröz Ailesi. Tüm Hakları Saklıdır.</p>
+        <p>&copy; 2026 Fındık Sepeti - Demiröz Ailesi. Düzce / Türkiye</p>
     </footer>
 
     <script src="sepet.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
