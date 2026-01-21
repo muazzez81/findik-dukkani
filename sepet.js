@@ -1,120 +1,119 @@
-(function() {
-    let sepet = [];
-    const whatsappNo = "905327669102";
+// 1. SEPET DEĞİŞKENLERİ VE TEMEL FONKSİYONLAR
+let sepet = [];
 
-    // 1. SEPET PANELİ TASARIMI (CSS)
-    const style = document.createElement('style');
-    style.innerHTML = `
-        #sepet-paneli {
-            position: fixed; top: 80px; right: 20px;
-            width: 320px; background: white; border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            z-index: 10001; display: none; border: 2px solid #e67e22;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
-        .sepet-ust { background: #e67e22; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .sepet-liste { max-height: 250px; overflow-y: auto; padding: 15px; color: #333; }
-        .sepet-urun { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px; font-size: 14px; }
-        .sepet-toplam-alan { padding: 15px; background: #fff8f2; border-top: 1px solid #eee; text-align: right; }
-        .sepet-toplam-alan strong { font-size: 18px; color: #d35400; }
-        .wp-siparis-buton { background: #25d366; color: white; text-align: center; padding: 15px; cursor: pointer; border: none; width: 100%; font-size: 16px; font-weight: bold; display: block; transition: 0.3s; }
-        .wp-siparis-buton:hover { background: #1ebe57; }
-        #sepet-kapat-ikon { cursor: pointer; font-size: 20px; }
-    `;
-    document.head.appendChild(style);
-
-    // 2. SEPET PANELİ HTML YAPISI
-    const sepetHtml = `
-        <div id="sepet-paneli">
-            <div class="sepet-ust">
-                <span>🛒 Sipariş Özetiniz</span>
-                <span id="sepet-kapat-ikon">×</span>
-            </div>
-            <div class="sepet-liste" id="sepet-icerik-listesi">
-                <p style="text-align:center; color:#999;">Sepetiniz henüz boş.</p>
-            </div>
-            <div class="sepet-toplam-alan">
-                Toplam: <strong id="sepet-toplam-tutar">0</strong> <strong>TL</strong>
-            </div>
-            <button class="wp-siparis-buton" id="wp-onay-buton">
-                <i class="fab fa-whatsapp"></i> Siparişi WhatsApp'la Bitir
-            </button>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', sepetHtml);
-
-    // Elementleri Tanımla
-    const panel = document.getElementById('sepet-paneli');
-    const liste = document.getElementById('sepet-icerik-listesi');
-    const toplamGosterge = document.getElementById('sepet-toplam-tutar');
-    const menuSayac = document.getElementById('sepet-sayaci-menu');
-
-    // 3. SEPETİ AÇ / KAPAT MANTIĞI
-    const sepetMenuButonu = document.getElementById('sepet-menu-item');
-    if(sepetMenuButonu) {
-        sepetMenuButonu.addEventListener('click', function(e) {
-            e.preventDefault();
-            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-        });
+function sepeteEkle(ad, fiyat) {
+    const varolanUrun = sepet.find(item => item.ad === ad);
+    if (varolanUrun) {
+        varolanUrun.adet += 1;
+    } else {
+        sepet.push({ ad: ad, fiyat: parseInt(fiyat), adet: 1 });
     }
+    sepetiGuncelle();
+    console.log("Ürün eklendi:", ad);
+}
 
-    document.getElementById('sepet-kapat-ikon').onclick = () => {
-        panel.style.display = 'none';
-    };
+function miktarAzalt(index) {
+    if (sepet[index].adet > 1) { 
+        sepet[index].adet -= 1; 
+    } else { 
+        sepet.splice(index, 1); 
+    }
+    sepetiGuncelle();
+}
 
-    // 4. SEPETE EKLEME FONKSİYONU
-    document.querySelectorAll('.sepete-ekle-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const urunAd = this.getAttribute('data-urun');
-            const urunFiyat = parseInt(this.getAttribute('data-fiyat'));
+function miktarArtir(index) {
+    sepet[index].adet += 1;
+    sepetiGuncelle();
+}
 
-            sepet.push({ ad: urunAd, fiyat: urunFiyat });
-            
-            sepetiGuncelle();
-            panel.style.display = 'block'; // Ürün eklenince sepeti otomatik aç
-        });
+function sepetiGuncelle() {
+    const liste = document.getElementById("sepet-listesi");
+    const toplamEl = document.getElementById("toplam-tutar");
+    const sayac = document.getElementById("sepet-sayaci-menu");
+    
+    if(!liste) return;
+    
+    liste.innerHTML = "";
+    let toplam = 0;
+    
+    sepet.forEach((urun, i) => {
+        toplam += (urun.fiyat * urun.adet);
+        const li = document.createElement("li");
+        li.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee; font-size:14px;";
+        li.innerHTML = `
+            <span><strong>${urun.ad}</strong><br>${urun.fiyat} TL x ${urun.adet}</span> 
+            <div style="display:flex; gap:5px;">
+                <button onclick="miktarAzalt(${i})" style="padding:2px 8px;">-</button> 
+                <button onclick="miktarArtir(${i})" style="padding:2px 8px;">+</button>
+            </div>`;
+        liste.appendChild(li);
     });
+    
+    if(toplamEl) toplamEl.innerText = toplam;
+    if(sayac) sayac.innerText = sepet.reduce((a, b) => a + b.adet, 0);
+}
 
-    function sepetiGuncelle() {
-        // Menüdeki sayacı güncelle
-        if(menuSayac) menuSayac.innerText = sepet.length;
+// 2. SİPARİŞ VERME (GOOGLE FORMA GÖNDERME) FONKSİYONU
+function siparisVer() {
+    const adInput = document.getElementById("musteri-ad");
+    const adresInput = document.getElementById("musteri-adres");
+    const toplamEl = document.getElementById("toplam-tutar");
 
-        // Listeyi temizle ve yeniden yaz
-        liste.innerHTML = '';
-        let toplam = 0;
+    const ad = adInput ? adInput.value.trim() : "";
+    const adres = adresInput ? adresInput.value.trim() : "";
+    const toplam = toplamEl ? toplamEl.innerText : "0";
 
-        if(sepet.length === 0) {
-            liste.innerHTML = '<p style="text-align:center; color:#999;">Sepetiniz henüz boş.</p>';
-        } else {
-            sepet.forEach((item) => {
-                toplam += item.fiyat;
-                liste.innerHTML += `
-                    <div class="sepet-urun">
-                        <span>${item.ad}</span>
-                        <strong>${item.fiyat} TL</strong>
-                    </div>
-                `;
-            });
-        }
-        toplamGosterge.innerText = toplam;
+    if (sepet.length === 0) {
+        alert("Sepetiniz boş!");
+        return;
+    }
+    if (!ad || !adres) {
+        alert("Lütfen adınızı ve adresinizi yazın.");
+        return;
     }
 
-    // 5. WHATSAPP'A GÖNDERME
-    document.getElementById('wp-onay-buton').onclick = function() {
-        if (sepet.length === 0) {
-            alert("Lütfen önce ürün ekleyin.");
-            return;
-        }
+    // YENİ FORM BİLGİLERİN
+    const formID = "1FAIpQLSckeDlZKUpiSJGDXUlXcWTysxuGuxwZcPc6WaXAJRM4BrJbUQ"; 
+    const urunDetay = sepet.map(u => `${u.ad} (${u.adet} Adet)`).join(", ");
+    const postUrl = `https://docs.google.com/forms/d/e/${formID}/formResponse`;
 
-        let mesaj = "*Yeni Fındık Siparişi (Düzce'den):*\n\n";
-        sepet.forEach((item, index) => {
-            mesaj += `${index + 1}. ${item.ad} - ${item.fiyat} TL\n`;
-        });
-        mesaj += `\n*Toplam Tutar:* ${toplamGosterge.innerText} TL\n\nAdres ve kargo detayları için bilgi bekliyorum.`;
+    const gizliForm = document.createElement('form');
+    gizliForm.method = 'POST';
+    gizliForm.action = postUrl;
+    gizliForm.target = 'gizli_iframe';
 
-        const wpLink = `https://wa.me/${whatsappNo}?text=${encodeURIComponent(mesaj)}`;
-        window.open(wpLink, '_blank');
+    // BU NUMARALAR SENİN YENİ FORMUYLA EŞLEŞTİ
+    const alanlar = {
+        "entry.2069695679": ad,         // Müşteri Ad Soyad
+        "entry.1018861343": adres,      // Adres
+        "entry.1353130456": urunDetay,  // Sipariş Detayı
+        "entry.1983802554": toplam      // Toplam Tutar
     };
 
-})();
+    for (let key in alanlar) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = alanlar[key];
+        gizliForm.appendChild(input);
+    }
+
+    let iframe = document.getElementById('gizli_iframe');
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = 'gizli_iframe';
+        iframe.name = 'gizli_iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+    }
+
+    document.body.appendChild(gizliForm);
+    gizliForm.submit();
+
+    // WhatsApp Mesajı
+    let mesaj = `*YENİ SİPARİŞ*%0A*Müşteri:* ${ad}%0A*Adres:* ${adres}%0A*Ürünler:* ${urunDetay}%0A*Toplam:* ${toplam} TL`;
+    
+    setTimeout(() => {
+        window.location.href = `https://wa.me/905327669102?text=${mesaj}`;
+    }, 1000);
+}
